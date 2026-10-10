@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Main {
     public enum AnsTier {
-        SNAKE("A VAMPIRE! "), FAIR_WEATHER("A GHOST! "), GOOD_FRIEND("A ZOMBIE!"), RIDE_OR_DIE("A WITCH'S FAMILIAR!");
+        VAMPIRE("A VAMPIRE! "), GHOST("A GHOST! HWWWAA "), ZOMBIE("A ZOOMBIE!"), HUMAN("A HYUMAN");
 
         private final String label;
 
@@ -20,10 +20,10 @@ public class Main {
         }
 
         public static AnsTier calculateTier(double score) {
-            if (score >= 85.0) return RIDE_OR_DIE;
-            if (score >= 60.0) return GOOD_FRIEND;
-            if (score >= 35.0) return FAIR_WEATHER;
-            return SNAKE;
+            if (score >= 85.0) return HUMAN;
+            if (score >= 60.0) return ZOMBIE;
+            if (score >= 35.0) return GHOST;
+            return VAMPIRE;
         }
     }
 
@@ -144,8 +144,7 @@ public class Main {
         List<Question> questions = getQuestions();
         List<String> userChoices = new ArrayList<>();
         printSpookyBootloader();
-        System.out.println("        IS YOUR BRO A SNAKE          ");
-
+        System.out.println("\u001B[32m" + "      WHAT KIND OF CODER ARE YOU?      " + "\u001B[0m\n");
         for (int i = 0; i < questions.size(); i++) {
             Question q = questions.get(i);
             System.out.println("Q" + (i + 1) + ": " + q.prompt());
@@ -168,9 +167,7 @@ public class Main {
             userChoices.add(choice);
             System.out.println();
         }
-
         QuizResult result = evaluate(questions, userChoices);
-
         System.out.printf("Final Score: %.1f%%\n", result.percentageScore());
         System.out.println("Verdict:     " + result.tier().getLabel());
         System.out.println("Tier Rank:   " + result.tier().name());
