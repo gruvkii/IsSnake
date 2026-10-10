@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Main {
     public enum AnsTier {
-        SNAKE("A SNAKE DETECTED!"), FAIR_WEATHER("Fair Weather Friend!"), GOOD_FRIEND("Good Friend!"), RIDE_OR_DIE("A Rare RIDE-OR-DIE COMBO!");
+        SNAKE("A VAMPIRE! "), FAIR_WEATHER("A GHOST! "), GOOD_FRIEND("A ZOMBIE!"), RIDE_OR_DIE("A WITCH'S FAMILIAR!");
 
         private final String label;
 
@@ -99,11 +99,51 @@ public class Main {
         return questions;
     }
 
+    public static void printSpookyBootloader() {
+        String purple = "\u001B[35m";
+        String reset = "\u001B[0m";
+
+        String[] sprite = {
+                "    █████",
+                "  ███████",
+                "███░░█░░█",
+                "███░▓█░▓█",
+                "███░░█░░█",
+                "█████████",
+                "█████████",
+                "██ ███ ██",
+                "█   █   █"
+        };
+
+        System.out.println("INITIALIZING C.R.T. TERMINAL...");
+
+        try {
+            Thread.sleep(800);
+            System.out.println("LOADING ENTITY...");
+            Thread.sleep(800);
+            System.out.println();
+
+            for (String line : sprite) {
+                System.out.println(purple + line + reset);
+                Thread.sleep(200);
+            }
+
+            System.out.println();
+            Thread.sleep(600);
+            System.out.println("CONNECTION ESTABLISHED.\n");
+            Thread.sleep(600);
+
+        } catch (InterruptedException e) {
+            // ignore if interrupted
+        }
+    }
+
     // MAIN CODE RUNNING BLOCK ( PLEASE DON'T MODIFY IT UNLESS EXTREME NECESSARY EVERYTHING IS GOING TO START FROM THIS BLOCK)
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         List<Question> questions = getQuestions();
         List<String> userChoices = new ArrayList<>();
+        printSpookyBootloader();
         System.out.println("        IS YOUR BRO A SNAKE          ");
 
         for (int i = 0; i < questions.size(); i++) {
