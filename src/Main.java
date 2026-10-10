@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Main {
     public enum AnsTier {
-        VAMPIRE("A VAMPIRE! "), GHOST("A GHOST! HWWWAA "), ZOMBIE("A ZOOMBIE!"), HUMAN("A HYUMAN");
+        VAMPIRE("A VAMPIRE! "), GHOST("A GHOST! HWWWAA "), ZOMBIE("A ZOOMBIE!"), WIZARD("A Wizarrd");
 
         private final String label;
 
@@ -20,7 +20,7 @@ public class Main {
         }
 
         public static AnsTier calculateTier(double score) {
-            if (score >= 85.0) return HUMAN;
+            if (score >= 85.0) return WIZARD;
             if (score >= 60.0) return ZOMBIE;
             if (score >= 35.0) return GHOST;
             return VAMPIRE;
