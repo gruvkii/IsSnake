@@ -7,14 +7,6 @@ Think of it as a fun way to find out which of your friends is loyal and which on
 
 ### There will be few factors that will determine the quality of the friend
 
-Some metrics will be :- 
+THE QUESTION FORMAT SHOULD BE SOMETHING LIKE THIS :-
 
-- Betrayal
-- Gossip
-- Jealousy
-- Loyality
-
-These are going to be some Factors and Won't be the final factors ATM
-
-
-```On the main_Menu Package there is a mainMenu class that will Handle all the Menu and Option related stuff! ```
+QUESTIONS : 
