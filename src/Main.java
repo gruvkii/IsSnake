@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -69,6 +66,38 @@ public class Main {
                 : ((rawScore - minPossible) / (maxPossible - minPossible)) * 100.0;
 
         return new QuizResult(percentage, AnsTier.calculateTier(percentage));
+    }
 
+    public static List<Question> getQuestions() throws FileNotFoundException {
+        List<Question> questions = new ArrayList<>();
+        File file = new File("questions.txt");
+        // This portion Has been Stolen from somewhere from Internet HOPE IT WORKS !
+        if (file.exists()) {
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    if (line.trim().isEmpty() || line.startsWith("#")) continue;
+
+                    String[] parts = line.split("\\|");
+                    if (parts.length < 3) continue;
+
+                    String prompt = parts[0].trim();
+                    float weight = Float.parseFloat(parts[1].trim());
+
+                    Map<String, Option> opts = new LinkedHashMap<>();
+                    for (int i = 2; i < parts.length; i++) {
+                        String[] optData = parts[i].split(":");
+                        if (optData.length == 3) {
+                            opts.put(optData[0].trim().toUpperCase(), new Option(optData[1].trim(), Integer.parseInt(optData[2].trim())));
+                        }
+                    }
+                    questions.add(new Question(prompt, weight, opts));
+                }
+                if (!questions.isEmpty()) return questions;
+            } catch (IOException | NumberFormatException e) {
+                System.out.println("Issue reading file. Exiting Program...\n");
+            }
+        }
+        return questions;
     }
 }
