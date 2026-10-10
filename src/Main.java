@@ -7,10 +7,7 @@ import java.util.Scanner;
 
 public class Main {
     public enum AnsTier {
-        SNAKE("A SNAKE DETECTED!"),
-        FAIR_WEATHER("Fair Weather Friend!"),
-        GOOD_FRIEND("Good Friend!"),
-        RIDE_OR_DIE("A Rare RIDE-OR-DIE COMBO!");
+        SNAKE("A SNAKE DETECTED!"), FAIR_WEATHER("Fair Weather Friend!"), GOOD_FRIEND("Good Friend!"), RIDE_OR_DIE("A Rare RIDE-OR-DIE COMBO!");
 
         private final String label;
 
@@ -61,46 +58,46 @@ public class Main {
             maxPossible += question.weight() * question.getMaxScore();
         }
 
-        double percentage = (maxPossible == minPossible)
-                ? 100.0
-                : ((rawScore - minPossible) / (maxPossible - minPossible)) * 100.0;
+        double percentage = (maxPossible == minPossible) ? 100.0 : ((rawScore - minPossible) / (maxPossible - minPossible)) * 100.0;
 
         return new QuizResult(percentage, AnsTier.calculateTier(percentage));
     }
 
     public static List<Question> getQuestions() {
         List<Question> questions = new ArrayList<>();
-        File file = new File("questions.txt");
-        // This portion Has been Stolen from somewhere from Internet HOPE IT WORKS !
-        if (file.exists()) {
-            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-                String line;
-                while ((line = br.readLine()) != null) {
-                    if (line.trim().isEmpty() || line.startsWith("#")) continue;
+        try (java.io.InputStream is = Main.class.getResourceAsStream("/questions.txt")) {
+            if (is != null) {
+                try (BufferedReader br = new BufferedReader(new java.io.InputStreamReader(is))) {
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        if (line.trim().isEmpty() || line.startsWith("#")) continue;
 
-                    String[] parts = line.split("\\|");
-                    if (parts.length < 3) continue;
+                        String[] parts = line.split("\\|");
+                        if (parts.length < 3) continue;
 
-                    String prompt = parts[0].trim();
-                    float weight = Float.parseFloat(parts[1].trim());
+                        String prompt = parts[0].trim();
+                        float weight = Float.parseFloat(parts[1].trim());
 
-                    Map<String, Option> opts = new LinkedHashMap<>();
-                    for (int i = 2; i < parts.length; i++) {
-                        String[] optData = parts[i].split(":");
-                        if (optData.length == 3) {
-                            opts.put(optData[0].trim().toUpperCase(), new Option(optData[1].trim(), Integer.parseInt(optData[2].trim())));
+                        Map<String, Option> opts = new LinkedHashMap<>();
+                        for (int i = 2; i < parts.length; i++) {
+                            String[] optData = parts[i].split(":");
+                            if (optData.length == 3) {
+                                opts.put(optData[0].trim().toUpperCase(), new Option(optData[1].trim(), Integer.parseInt(optData[2].trim())));
+                            }
                         }
+                        questions.add(new Question(prompt, weight, opts));
                     }
-                    questions.add(new Question(prompt, weight, opts));
+                    if (!questions.isEmpty()) return questions;
                 }
-                if (!questions.isEmpty()) return questions;
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("Issue reading file. Exiting Program...\n");
+            } else {
+                System.out.println("questions.txt not found inside the JAR.\n");
             }
+        } catch (IOException | NumberFormatException e) {
+            System.out.println("Issue reading Questions. Exiting Program...\n");
         }
+
         return questions;
     }
-
 
     // MAIN CODE RUNNING BLOCK ( PLEASE DON'T MODIFY IT UNLESS EXTREME NECESSARY EVERYTHING IS GOING TO START FROM THIS BLOCK)
     public static void main(String[] args) {
