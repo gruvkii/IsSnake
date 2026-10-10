@@ -68,7 +68,7 @@ public class Main {
         return new QuizResult(percentage, AnsTier.calculateTier(percentage));
     }
 
-    public static List<Question> getQuestions() throws FileNotFoundException {
+    public static List<Question> getQuestions() {
         List<Question> questions = new ArrayList<>();
         File file = new File("questions.txt");
         // This portion Has been Stolen from somewhere from Internet HOPE IT WORKS !
@@ -99,5 +99,43 @@ public class Main {
             }
         }
         return questions;
+    }
+
+
+    // MAIN CODE RUNNING BLOCK ( PLEASE DON'T MODIFY IT UNLESS EXTREME NECESSARY EVERYTHING IS GOING TO START FROM THIS BLOCK)
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<Question> questions = getQuestions();
+        List<String> userChoices = new ArrayList<>();
+        System.out.println("        IS YOUR BRO A SNAKE          ");
+
+        for (int i = 0; i < questions.size(); i++) {
+            Question q = questions.get(i);
+            System.out.println("Q" + (i + 1) + ": " + q.prompt());
+
+            for (Map.Entry<String, Option> entry : q.options().entrySet()) {
+                System.out.println("  [" + entry.getKey() + "] " + entry.getValue().label());
+            }
+
+            String choice;
+            while (true) {
+                System.out.print("Your choice: ");
+                choice = scanner.nextLine().trim().toUpperCase();
+
+                if (q.options().containsKey(choice)) {
+                    break;
+                }
+                System.out.println("Invalid input. Please choose from: " + q.options().keySet());
+            }
+
+            userChoices.add(choice);
+            System.out.println();
+        }
+
+        QuizResult result = evaluate(questions, userChoices);
+
+        System.out.printf("Final Score: %.1f%%\n", result.percentageScore());
+        System.out.println("Verdict:     " + result.tier().getLabel());
+        System.out.println("Tier Rank:   " + result.tier().name());
     }
 }
