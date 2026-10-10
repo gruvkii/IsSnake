@@ -33,17 +33,42 @@ public class Main {
         }
     }
 
-    public record Option(String label, int score) {}
+    public record Option(String label, int score) {
+    }
 
     public record Question(String prompt, float weight, Map<String, Option> options) {
         public int getMinScore() {
             return options.values().stream().mapToInt(Option::score).min().orElse(0);
         }
+
         public int getMaxScore() {
             return options.values().stream().mapToInt(Option::score).max().orElse(0);
         }
     }
 
-    public record QuizResult(double percentageScore, AnsTier tier) {}
+    public record QuizResult(double percentageScore, AnsTier tier) {
+    }
 
+    public static QuizResult evaluate(List<Question> questions, List<String> userChoices) {
+        double rawScore = 0.0;
+        double minPossible = 0.0;
+        double maxPossible = 0.0;
+        for (int index = 0; index < questions.size(); index++) {
+            Question question = questions.get(index);
+            String ChoiceKey = userChoices.get(index);
+            Option option = question.options.get(ChoiceKey);
+
+
+            rawScore += question.weight() * option.score();
+            minPossible += question.weight() * question.getMinScore();
+            maxPossible += question.weight() * question.getMaxScore();
+        }
+
+        double percentage = (maxPossible == minPossible)
+                ? 100.0
+                : ((rawScore - minPossible) / (maxPossible - minPossible)) * 100.0;
+
+        return new QuizResult(percentage, AnsTier.calculateTier(percentage));
+
+    }
 }
