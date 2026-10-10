@@ -133,6 +133,15 @@ public class Main {
             System.out.println("CONNECTION ESTABLISHED.\n");
             Thread.sleep(600);
 
+            System.out.println("\u001B[33m" + "==================================================================");
+            System.out.println(" DISCLAIMER: This is a 100% scientifically inaccurate, just-for-fun");
+            System.out.println(" vibe check. It does not reflect any real-world classes or serious");
+            System.out.println(" metrics. Please do not take it seriously!");
+            System.out.println("==================================================================" + reset + "\n");
+
+            Thread.sleep(1500); // Gives the user a second to read the disclaimer
+            System.out.println(purple + "SYSTEM READY. LET'S DEBUG YOUR SOUL." + reset + "\n");
+            Thread.sleep(600);
         } catch (InterruptedException e) {
             // ignore if interrupted
         }
